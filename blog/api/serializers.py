@@ -8,6 +8,7 @@ class PostListSerializer(ModelSerializer):
         model = Post
         fields = [
             'id',
+            'author',
             'title',
             'content',
             'date_posted',
@@ -18,13 +19,14 @@ class PostDetailSerializer(ModelSerializer):
         model = Post
         fields = [
             'id',
+            'author',
             'title',
             'content',
             'date_posted',
         ]
 
 
-class PostCreateSerializer(ModelSerializer):
+class PostCreateUpdateSerializer(ModelSerializer):
     class Meta:
         model = Post
         fields = [
@@ -32,6 +34,7 @@ class PostCreateSerializer(ModelSerializer):
             'title',
             'content',
             'date_posted',
+            # 'author',
         ]
 
 

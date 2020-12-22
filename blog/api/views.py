@@ -1,23 +1,36 @@
 from rest_framework.generics import (
-    ListAPIView,
-    RetrieveAPIView,
+    CreateAPIView,
     DestroyAPIView,
+    ListAPIView,
     UpdateAPIView,
-    CreateAPIView
+    RetrieveAPIView,
+    RetrieveUpdateAPIView,
 )
 
+from rest_framework.permissions import (
+    AllowAny,
+    IsAuthenticated,
+    IsAdminUser,
+    IsAuthenticatedOrReadOnly,
+)
+
+from .permissions import IsOwnerOrReadOnly
 from .. models import Post
+
 from .serializers import (
-    PostListSerializer,
+    PostCreateUpdateSerializer,
     PostDetailSerializer,
-    PostCreateSerializer
+    PostListSerializer,
 )
 
 
-class PostListAPIView(ListAPIView):
+class PostCreateAPIView(CreateAPIView):
     queryset = Post.objects.all()
-    serializer_class = PostListSerializer
+    serializer_class = PostCreateUpdateSerializer
+    permission_classes = [IsAuthenticated]
 
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
 
 class PostDetailAPIView(RetrieveAPIView):
     queryset = Post.objects.all()
@@ -25,18 +38,21 @@ class PostDetailAPIView(RetrieveAPIView):
     # lookup_field = 'slug'
     # lookup_url_kwarg = 'abc' # /<abc>/
 
+
+class PostListAPIView(ListAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostListSerializer
+
+
 class PostDeleteAPIView(DestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostDetailSerializer
-    # lookup_field = 'slug'
-    # lookup_url_kwarg = 'abc' # /<abc>/
 
-class PostUpdateAPIView(UpdateAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostDetailSerializer
-    # lookup_field = 'slug'
-    # lookup_url_kwarg = 'abc' # /<abc>/
 
-class PostCreateAPIView(CreateAPIView):
+class PostUpdateAPIView(RetrieveUpdateAPIView):
     queryset = Post.objects.all()
-    serializer_class = PostCreateSerializer
+    serializer_class = PostCreateUpdateSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
+    def perform_update(self, serializer):
+        serializer.save(author=self.request.user)
