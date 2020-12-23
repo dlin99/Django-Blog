@@ -1,5 +1,5 @@
 {% extends "blog/base.html" %}
-
+{% load crispy_forms_tags %}
 {% block content %}
   <article class="media content-section">
     <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
@@ -17,18 +17,23 @@
       <h2 class="article-title" >{{ post.title }}</h2>
       <p class="article-content">{{ post.content }}</p>
     </div>
+
   </article>
 
-<!-- comments -->
-<div class="media content-section">
-  <p class="lead">Comments</p>
-  <form method="post" action="">
-    {% csrf_token %}
-    {{ comment_form }}
-    <input type="submit" value="Post comment" class="btn btn-default">
-  </form>
+<article class="media content-section">
+  <div class="media-body">
+    <h3>Comments</h3>
+    <form method="post" action="">
+      {% csrf_token %}
+      {{ comment_form|crispy }}
+      <input type="submit" value="Post comment" class="btn btn-default">
+    </form>
 
-</div>
+  </div>
+</article>
+
+<!-- comments -->
+
 
 
 {% for comment in comments %}

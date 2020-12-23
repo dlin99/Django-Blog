@@ -23,10 +23,23 @@ class Comment(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
 
+    parent = models.ForeignKey("self", null=True, blank=True, on_delete=models.CASCADE)
     content = models.TextField()
     timestamp = models.DateTimeField(default=timezone.now)
 
     objects = CommentManager()
 
+    class Meta:
+        ordering = ['-timestamp']
+
     def __str__(self):
         return str(self.author.username)
+
+    def children(self): #replies
+        return Comment.objects.filter(parent=self)
+
+    @property
+    def is_parent(self):
+        if self.parent is not None:
+            return False
+        return True

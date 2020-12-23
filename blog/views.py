@@ -43,6 +43,18 @@ class UserPostListView(ListView):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         return Post.objects.filter(author=user).order_by('-date_posted')
 
+# for the detail page, we need GET and POST functionality for the user to post new comment to the post
+from django.views import View
+class PostDetailView(View):
+
+    def get(self, request, *args, **kwargs):
+        view = PostDetailGetView.as_view()
+        return view(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        view = PostDetailPostView.as_view()
+        return view(request, *args, **kwargs)
+
 
 class PostDetailGetView(DetailView):
     model = Post
@@ -63,8 +75,6 @@ class PostDetailGetView(DetailView):
             'object_id': instance.id
             }
         comment_form = CommentForm(self.request.POST or None, initial=initial_data)
-        if comment_form.is_valid():
-            print(comment_form.cleaned_data)
         context['comment_form'] = comment_form
 
         return context
@@ -83,17 +93,13 @@ class  PostDetailPostView(SingleObjectMixin, FormView):
             'content_type': instance.get_content_type,
             'object_id': instance.id
             }
-        print(initial_data)
         comment_form = CommentForm(self.request.POST or None, initial=initial_data)
+
         if comment_form.is_valid():
-            print('clean data', comment_form.cleaned_data)
-            c_type = comment_form.cleaned_data.get('content_type').split('|')
-            print(c_type, type(c_type))
+            # c_type = comment_form.cleaned_data.get('content_type').split('|')
             content_type = ContentType.objects.get_for_model(instance.__class__)
-            # content_type = ContentType.objects.get(app_label=c_type[0], model=c_type[1])
             obj_id = comment_form.cleaned_data.get('object_id')
             content_data = comment_form.cleaned_data.get('content')
-            print('inner', content_type)
             new_comment, created = Comment.objects.get_or_create(
                                     author=request.user,
                                     content_type=content_type,
@@ -111,19 +117,6 @@ class  PostDetailPostView(SingleObjectMixin, FormView):
 
     def get_success_url(self):
         return reverse('post-detail', kwargs={'pk': self.get_object().id})
-
-from django.views import View
-class PostDetailView(View):
-
-    def get(self, request, *args, **kwargs):
-        view = PostDetailGetView.as_view()
-        return view(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        view = PostDetailPostView.as_view()
-        return view(request, *args, **kwargs)
-
-
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
