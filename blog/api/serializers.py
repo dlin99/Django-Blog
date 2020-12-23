@@ -1,4 +1,9 @@
-from rest_framework.serializers import ModelSerializer, HyperlinkedIdentityField
+from rest_framework.serializers import (
+    ModelSerializer,
+    HyperlinkedIdentityField,
+    SerializerMethodField,
+    )
+
 from ..models import Post
 
 post_detail_url = HyperlinkedIdentityField(
@@ -9,6 +14,7 @@ post_detail_url = HyperlinkedIdentityField(
 
 class PostListSerializer(ModelSerializer):
     url = post_detail_url
+    author = SerializerMethodField()
     class Meta:
         model = Post
         fields = [
@@ -20,8 +26,12 @@ class PostListSerializer(ModelSerializer):
             'date_posted',
         ]
 
+    def get_author(self, obj):
+        return str(obj.author.username)
+
 class PostDetailSerializer(ModelSerializer):
     url = post_detail_url
+    author = SerializerMethodField()
     class Meta:
         model = Post
         fields = [
@@ -32,6 +42,9 @@ class PostDetailSerializer(ModelSerializer):
             'content',
             'date_posted',
         ]
+
+    def get_author(self, obj):
+        return str(obj.author.username)
 
 
 class PostCreateUpdateSerializer(ModelSerializer):
