@@ -1,16 +1,23 @@
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (
     ListView,
     DetailView,
     CreateView,
     UpdateView,
-    DeleteView
+    DeleteView,
+    FormView,
 )
+
+from django.views.generic.detail import SingleObjectMixin
 from .models import Post
 from django.contrib.auth.models import User
 
-# from django.http import HttpResponse
+from comments.forms import CommentForm
+from comments.models import Comment
+from django.contrib.contenttypes.models import ContentType
+from django.http import HttpResponse,  HttpResponseRedirect
 
 def home(request):
     # return HttpResponse('<h1>Blog Home</h1>')
@@ -37,8 +44,87 @@ class UserPostListView(ListView):
         return Post.objects.filter(author=user).order_by('-date_posted')
 
 
-class PostDetailView(DetailView):
+class PostDetailGetView(DetailView):
     model = Post
+    context_object_name = 'post'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # content_type = ContentType.objects.get_for_model(Post)
+        # obj_id = self.get_object().id
+        # comments = Comment.objects.filter_by_instance(content_type=content_type, object_id=obj_id)
+        instance = self.get_object()
+        comments = instance.comments
+        context['comments'] = comments
+
+        initial_data = {
+            'content_type': instance.get_content_type,
+            'object_id': instance.id
+            }
+        comment_form = CommentForm(self.request.POST or None, initial=initial_data)
+        if comment_form.is_valid():
+            print(comment_form.cleaned_data)
+        context['comment_form'] = comment_form
+
+        return context
+
+
+class  PostDetailPostView(SingleObjectMixin, FormView):
+    template_name = 'blog/post_detail.html'
+    form_class = CommentForm
+    model = Post
+
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return HttpResponseForbidden()
+        instance = self.get_object()
+        initial_data = {
+            'content_type': instance.get_content_type,
+            'object_id': instance.id
+            }
+        print(initial_data)
+        comment_form = CommentForm(self.request.POST or None, initial=initial_data)
+        if comment_form.is_valid():
+            print('clean data', comment_form.cleaned_data)
+            c_type = comment_form.cleaned_data.get('content_type').split('|')
+            print(c_type, type(c_type))
+            content_type = ContentType.objects.get_for_model(instance.__class__)
+            # content_type = ContentType.objects.get(app_label=c_type[0], model=c_type[1])
+            obj_id = comment_form.cleaned_data.get('object_id')
+            content_data = comment_form.cleaned_data.get('content')
+            print('inner', content_type)
+            new_comment, created = Comment.objects.get_or_create(
+                                    author=request.user,
+                                    content_type=content_type,
+                                    object_id=obj_id,
+                                    content=content_data
+                                    )
+            if created:
+                print('it works!')
+
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            print('fail!!!!!!!!!!!!!!!!!!!!!!!')
+            return render_to_response(self.get_context_data(form=comment_form))
+
+
+    def get_success_url(self):
+        return reverse('post-detail', kwargs={'pk': self.get_object().id})
+
+from django.views import View
+class PostDetailView(View):
+
+    def get(self, request, *args, **kwargs):
+        view = PostDetailGetView.as_view()
+        return view(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        view = PostDetailPostView.as_view()
+        return view(request, *args, **kwargs)
+
+
+
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
