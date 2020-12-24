@@ -43,7 +43,10 @@ urlpatterns = [
 
     path('', include('blog.urls')),
     path('comments/', include('comments.urls', namespace='comments')),
+
+
     path('api/posts/', include('blog.api.urls', namespace='posts-api')),
+    path('api/comments/', include('comments.api.urls', namespace='comments-api')),
 ]
 
 if settings.DEBUG:
