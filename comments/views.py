@@ -5,8 +5,10 @@ from .forms import CommentForm
 from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
+@login_required
 def comment_delete(request, pk):
     # obj = get_object_or_404(Comment, id=pk)
     try:
@@ -55,7 +57,7 @@ def comment_thread(request, pk):
 
     form = CommentForm(request.POST or None, initial=initial_data)
 
-    if form.is_valid():
+    if form.is_valid() and request.user.is_authenticated:
         content_type = ContentType.objects.get_for_model(obj.content_object.__class__)
         obj_id = form.cleaned_data.get('object_id')
         content_data = form.cleaned_data.get("content")

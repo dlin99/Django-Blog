@@ -21,26 +21,26 @@
 
   </article>
 
+<!-- comments -->
 <article class="media content-section">
   <div class="media-body">
     <h3>Comments</h3>
+    {% if request.user.is_authenticated %}
     <form method="post" action="">
       {% csrf_token %}
       {{ comment_form|crispy }}
       <input type="submit" value="Post comment" class="btn btn-default">
     </form>
+    {% else %}
+      <p>You must login to comment</p>
+    {% endif %}
+
 
   </div>
 </article>
 
-<!-- comments -->
 
-<!-- <div class="media content-section">
-  <blockquote>
-    <p>{{ comment.content }}</p>
-    <footer>via {{ comment.author }} on {{ comment.timestamp|timesince }} ago</footer>
-  </blockquote>
-</div> -->
+
 
 {% for comment in comments %}
 
@@ -50,7 +50,7 @@
       <div class="media-body">
         {{ comment.content }}
         <br>
-        <small>via {{ comment.author }} on {{ comment.timestamp|timesince }} ago | {% if comment.children.count > 0 %}{{ comment.children.count }} Comment{% if comment.children.count > 1%}s{% endif %} | {% endif %} <a class="comment-reply-btn" href="#">Reply</a> <a class="" href="{{ comment.get_absolute_url }}">Thread</a></small>
+        <small>via {{ comment.author }} on {{ comment.timestamp|timesince }} ago | {% if comment.children.count > 0 %}{{ comment.children.count }} Comment{% if comment.children.count > 1%}s{% endif %} | {% endif %} <a class="comment-reply-btn" href="#">Reply</a> | <a class="" href="{{ comment.get_absolute_url }}">Thread</a></small>
 
         <div class="comment-reply" style="display:none;">
           {% for child_comment in comment.children %}
@@ -62,12 +62,18 @@
             </div>
           </div>
           {% endfor %}
+
+          {% if request.user.is_authenticated %}
           <form method="post" action="">
             {% csrf_token %}
             {{ comment_form|crispy }}
             <input type="hidden" name="parent_id" value="{{ comment.id }}">
             <input type="submit" value="Reply" class="btn btn-default">
           </form>
+          {% else %}
+            <p>You must login to comment</p>
+          {% endif %}
+
         </div>
 
 
