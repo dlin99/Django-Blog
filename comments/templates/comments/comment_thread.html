@@ -9,7 +9,7 @@
       <div class="media-body">
         {{ comment.content }}
         <br>
-        <small>via {{ comment.author }} on {{ comment.timestamp|timesince }} ago | {% if comment.children.count > 0 %}{{ comment.children.count }} Comment{% if comment.children.count > 1%}s{% endif %} | {% endif %}</small>
+        <small>via {{ comment.author }} on {{ comment.timestamp|timesince }} ago | {% if comment.children.count > 0 %}{{ comment.children.count }} Comment{% if comment.children.count > 1%}s{% endif %} | {% endif %} {% if request.user == comment.author %}<a href="{{ comment.get_delete_url }}">Delete</a>{% endif %}</small>
 
         <div class="comment-reply">
           {% for child_comment in comment.children %}
@@ -17,7 +17,7 @@
             <div class="media-body">
               <br>{{ child_comment.content }}
               <br>
-              <small>via {{ child_comment.author }} on {{ child_comment.timestamp|timesince }} ago</small>
+              <small>via {{ child_comment.author }} on {{ child_comment.timestamp|timesince }} ago | {% if request.user == child_comment.author %}<a href="{{ child_comment.get_delete_url }}">Delete</a>{% endif %}</small>
             </div>
           </div>
           {% endfor %}

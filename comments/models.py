@@ -10,6 +10,7 @@ from django.urls import reverse
 # Create your models here.
 
 class CommentManager(models.Manager):
+    # this will effect get_object_or_404 function
     def all(self):
         qs = super(CommentManager, self).filter(parent=None)
         return qs
@@ -43,6 +44,9 @@ class Comment(models.Model):
 
     def get_absolute_url(self):
         return reverse('comments:thread', kwargs={'pk': self.pk})
+
+    def get_delete_url(self):
+        return reverse('comments:comment-delete', kwargs={'pk': self.pk})
 
     def children(self): #replies
         return Comment.objects.filter(parent=self)

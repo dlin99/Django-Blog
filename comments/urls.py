@@ -6,6 +6,6 @@ app_name = 'comments'
 urlpatterns = [
 
     path('<int:pk>/', views.comment_thread, name='thread'),
-    # path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='comment-delete'),
+    path('<int:pk>/delete/',  views.comment_delete, name='comment-delete'),
 
 ]

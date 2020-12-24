@@ -2,13 +2,48 @@ from django.shortcuts import render, get_object_or_404
 from .models import Comment
 from .forms import CommentForm
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
 # Create your views here.
 
+def comment_delete(request, pk):
+    # obj = get_object_or_404(Comment, id=pk)
+    try:
+        obj = Comment.objects.get(id=pk)
+    except:
+        raise Http404
+
+    if obj.author != request.user:
+        # messages.success(request, "You do not have permission to view this.")
+        # raise Http404
+        response = HttpResponse("You do not have permission to do this.")
+        response.status_code = 403
+        return response
+
+    if request.method == "POST":
+        parent_obj_url = obj.content_object.get_absolute_url() # the parent post
+        obj.delete()
+        messages.success(request, "This comment has been deleted.")
+        return HttpResponseRedirect(parent_obj_url)
+
+    context = {
+        'object': obj
+    }
+    return render(request, 'comments/confirm_delete.html', context)
+
+
+
+
 def comment_thread(request, pk):
-    obj = get_object_or_404(Comment, id=pk)  # grab the comment
+    # obj = get_object_or_404(Comment, id=pk)  # grab the comment
+    try:
+        obj = Comment.objects.get(id=pk)
+    except:
+        raise Http404
+
+    if not obj.is_parent:
+        obj = obj.parent
 
     content_object = obj.content_object # the Post that related the this comment
     content_id = obj.content_object.id
@@ -43,7 +78,7 @@ def comment_thread(request, pk):
                             content = content_data,
                             parent = parent_obj,
                         )
-        return HttpResponseRedirect(new_comment.content_object.get_absolute_url()) # go back to the POST 
+        return HttpResponseRedirect(new_comment.content_object.get_absolute_url()) # go back to the POST
 
 
     context = {
