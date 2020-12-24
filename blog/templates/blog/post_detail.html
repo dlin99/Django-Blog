@@ -49,26 +49,25 @@
       <div class="media-body">
         {{ comment.content }}
         <br>
-        <small>via {{ comment.author }} on {{ comment.timestamp|timesince }} ago</small>
+        <small>via {{ comment.author }} on {{ comment.timestamp|timesince }} ago | {% if comment.children.count > 0 %}{{ comment.children.count }} Comment{% if comment.children.count > 1%}s{% endif %} | {% endif %} <a class="comment-reply-btn" href="#">Reply</a></small>
 
-
-        {% for child_comment in comment.children %}
-        <div class="media content-section pt-0 mt-0">
-          <div class="media-body">
-            <br>{{ child_comment.content }}
-            <br>
-            <small>via {{ child_comment.author }} on {{ child_comment.timestamp|timesince }} ago</small>
+        <div class="comment-reply" style="display:none;">
+          {% for child_comment in comment.children %}
+          <div class="media content-section pt-0 mt-0">
+            <div class="media-body">
+              <br>{{ child_comment.content }}
+              <br>
+              <small>via {{ child_comment.author }} on {{ child_comment.timestamp|timesince }} ago</small>
+            </div>
           </div>
+          {% endfor %}
+          <form method="post" action="">
+            {% csrf_token %}
+            {{ comment_form|crispy }}
+            <input type="hidden" name="parent_id" value="{{ comment.id }}">
+            <input type="submit" value="Reply" class="btn btn-default">
+          </form>
         </div>
-        {% endfor %}
-
-
-        <form method="post" action="">
-          {% csrf_token %}
-          {{ comment_form|crispy }}
-          <input type="hidden" name="parent_id" value="{{ comment.id }}">
-          <input type="submit" value="Reply" class="btn btn-default">
-        </form>
 
 
       </div>
@@ -77,7 +76,12 @@
 {% endfor %}
 
 <!-- ff -->
-
+<script type="text/javascript">
+  $(".comment-reply-btn").click(function(event){
+    event.preventDefault();
+    $(this).parent().next(".comment-reply").fadeToggle();
+  });
+</script>
 
 
 <!-- ff -->
