@@ -19,6 +19,7 @@ from comments.models import Comment
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse,  HttpResponseRedirect, HttpResponseForbidden
 
+
 def home(request):
     # return HttpResponse('<h1>Blog Home</h1>')
     context = {
@@ -69,6 +70,7 @@ class PostDetailGetView(DetailView):
         instance = self.get_object()
         comments = instance.comments
         context['comments'] = comments
+
 
         initial_data = {
             'content_type': instance.get_content_type,

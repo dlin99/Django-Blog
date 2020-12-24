@@ -8,8 +8,9 @@ from django.contrib import messages
 # Create your views here.
 
 def comment_thread(request, pk):
-    obj = get_object_or_404(Comment, id=pk)
-    content_object = obj.content_object # Post that the comment is on
+    obj = get_object_or_404(Comment, id=pk)  # grab the comment
+
+    content_object = obj.content_object # the Post that related the this comment
     content_id = obj.content_object.id
 
     initial_data = {
@@ -17,19 +18,15 @@ def comment_thread(request, pk):
             "object_id": obj.object_id
     }
 
-
     form = CommentForm(request.POST or None, initial=initial_data)
 
     if form.is_valid():
-        print('form is valid')
-        # c_type = form.cleaned_data.get("content_type")
         content_type = ContentType.objects.get_for_model(obj.content_object.__class__)
-        # content_type = ContentType.objects.get(model=c_type)
         obj_id = form.cleaned_data.get('object_id')
         content_data = form.cleaned_data.get("content")
         parent_obj = None
         try:
-            parent_id = int(request.POST.get("parent_id"))
+            parent_id = int(request.POST.get("parent_id")) # from the form
         except:
             parent_id = None
 
@@ -46,7 +43,7 @@ def comment_thread(request, pk):
                             content = content_data,
                             parent = parent_obj,
                         )
-        return HttpResponseRedirect(new_comment.content_object.get_absolute_url())
+        return HttpResponseRedirect(new_comment.content_object.get_absolute_url()) # go back to the POST 
 
 
     context = {
