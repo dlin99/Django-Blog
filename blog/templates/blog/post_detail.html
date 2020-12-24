@@ -49,7 +49,7 @@
       <div class="media-body">
         {{ comment.content }}
         <br>
-        <small>via {{ comment.author }} on {{ comment.timestamp|timesince }} ago | {% if comment.children.count > 0 %}{{ comment.children.count }} Comment{% if comment.children.count > 1%}s{% endif %} | {% endif %} <a class="comment-reply-btn" href="#">Reply</a></small>
+        <small>via {{ comment.author }} on {{ comment.timestamp|timesince }} ago | {% if comment.children.count > 0 %}{{ comment.children.count }} Comment{% if comment.children.count > 1%}s{% endif %} | {% endif %} <a class="comment-reply-btn" href="#">Reply</a> <a class="" href="{{ comment.get_absolute_url }}">Thread</a></small>
 
         <div class="comment-reply" style="display:none;">
           {% for child_comment in comment.children %}

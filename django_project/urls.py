@@ -42,6 +42,7 @@ urlpatterns = [
         name='password_reset_complete'),
 
     path('', include('blog.urls')),
+    path('comments/', include('comments.urls', namespace='comments')),
     path('api/posts/', include('blog.api.urls', namespace='posts-api')),
 ]
 

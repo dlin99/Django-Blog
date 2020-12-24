@@ -6,11 +6,12 @@ from django.contrib.contenttypes.models import ContentType
 
 # from blog.models import Post
 from django.utils import timezone
+from django.urls import reverse
 # Create your models here.
 
 class CommentManager(models.Manager):
     def all(self):
-        qs = super(CommentManager. self).filter(parent=None)
+        qs = super(CommentManager, self).filter(parent=None)
         return qs
 
 
@@ -39,6 +40,9 @@ class Comment(models.Model):
 
     def __str__(self):
         return str(self.author.username)
+
+    def get_absolute_url(self):
+        return reverse('comments:thread', kwargs={'pk': self.pk})
 
     def children(self): #replies
         return Comment.objects.filter(parent=self)
