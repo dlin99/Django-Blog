@@ -17,7 +17,7 @@ from django.contrib.auth.models import User
 from comments.forms import CommentForm
 from comments.models import Comment
 from django.contrib.contenttypes.models import ContentType
-from django.http import HttpResponse,  HttpResponseRedirect
+from django.http import HttpResponse,  HttpResponseRedirect, HttpResponseForbidden
 
 def home(request):
     # return HttpResponse('<h1>Blog Home</h1>')
@@ -100,11 +100,22 @@ class  PostDetailPostView(SingleObjectMixin, FormView):
             content_type = ContentType.objects.get_for_model(instance.__class__)
             obj_id = comment_form.cleaned_data.get('object_id')
             content_data = comment_form.cleaned_data.get('content')
+            parent_obj = None
+            try:
+                parent_id = int(self.request.POST.get("parent_id"))
+            except:
+                parent_id = None
+            if parent_id:
+                parent_qs = Comment.objects.filter(id=parent_id)
+                if parent_qs.exists() and parent_qs.count() == 1:
+                    parent_obj = parent_qs.first()
+
             new_comment, created = Comment.objects.get_or_create(
                                     author=request.user,
                                     content_type=content_type,
                                     object_id=obj_id,
-                                    content=content_data
+                                    content=content_data,
+                                    parent = parent_obj,
                                     )
             if created:
                 print('it works!')
