@@ -5,6 +5,7 @@ from rest_framework.filters import (
     OrderingFilter,
 )
 
+from rest_framework.mixins import DestroyModelMixin, UpdateModelMixin
 from rest_framework.generics import (
     CreateAPIView,
     DestroyAPIView,
@@ -26,12 +27,11 @@ from blog.api.permissions import IsOwnerOrReadOnly
 
 from comments.models import Comment
 
-
-
 from .serializers import (
-    CommentSerializer,
+    CommentListSerializer,
     CommentDetailSerializer,
     create_comment_serializer,
+    # CommentEditSerializer,
 
 )
 
@@ -55,14 +55,14 @@ class CommentCreateAPIView(CreateAPIView):
 
 
 class CommentListAPIView(ListAPIView):
-    serializer_class = CommentSerializer
+    serializer_class = CommentListSerializer
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['content', 'author__first_name']
     # pagination_class = PostLimitOffsetPagination
     pagination_class = PostPageNumberPagination
 
     def get_queryset(self, *args, **kwargs):
-        queryset_list = Comment.objects.all()
+        queryset_list = Comment.objects.filter(id__gte=0)
         query = self.request.GET.get("q")
         if query:
             queryset_list = queryset_list.filter(
@@ -73,12 +73,22 @@ class CommentListAPIView(ListAPIView):
         return queryset_list
 
 
-class CommentDetailAPIView(RetrieveAPIView):
-    queryset = Comment.objects.all()
+# class CommentEditAPIView(RetrieveAPIView):
+#     queryset = Comment.objects.all()
+#     serializer_class = CommentDetailSerializer
+#     loockup_field = 'pk'
+
+
+class CommentDetailAPIView(DestroyModelMixin, UpdateModelMixin, RetrieveAPIView):
+    queryset = Comment.objects.filter(id__gte=0) # the all() will only grab the parent comments
     serializer_class = CommentDetailSerializer
-    loockup_field = 'pk'
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
 
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 #
 #
