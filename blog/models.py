@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
-# Create your models here.
+
 from comments.models import Comment
 from django.contrib.contenttypes.models import ContentType
 
@@ -10,6 +10,9 @@ from markdown_deux import markdown
 from django.utils.safestring import mark_safe
 from django.template.defaultfilters import truncatechars
 
+
+
+# Create your models here.
 class Post(models.Model):
 
     class PostObjects(models.Manager):
@@ -19,6 +22,7 @@ class Post(models.Model):
 
     author = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True, blank=True, null=True)
     content = models.TextField()
     date_posted = models.DateTimeField(default=timezone.now)
     read_time = models.IntegerField(default=0, null=True, blank=True) #models.TimeField(null=True, blank=True)
@@ -29,7 +33,8 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('post-detail', kwargs={'pk': self.pk})
+        # return reverse('post-detail', kwargs={'pk': self.pk})
+        return reverse("post-detail", kwargs={"slug": self.slug})
 
 
     def get_markdown(self):

@@ -129,7 +129,7 @@ class  PostDetailPostView(SingleObjectMixin, FormView):
 
 
     def get_success_url(self):
-        return reverse('post-detail', kwargs={'pk': self.get_object().id})
+        return reverse('post-detail', kwargs={'slug': self.get_object().slug})
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
