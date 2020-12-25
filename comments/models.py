@@ -22,6 +22,24 @@ class CommentManager(models.Manager):
         qs = super(CommentManager, self).filter(content_type=content_type, object_id=obj_id).filter(parent=None)
         return qs
 
+    def create_by_model_type(self, model_type, slug, content, author, parent_obj=None):
+            model_qs = ContentType.objects.filter(model=model_type) # in this case, it's post model
+            if model_qs.exists():
+                SomeModel = model_qs.first().model_class()
+                obj_qs = SomeModel.objects.filter(slug=slug) # the specific post for the comments
+                if obj_qs.exists() and obj_qs.count() == 1:
+                    instance = self.model()
+                    instance.content = content 
+                    instance.author = author 
+                    instance.content_type = model_qs.first()
+                    instance.object_id = obj_qs.first().id
+                    if parent_obj:
+                        instance.parent = parent_obj
+                    instance.save()
+                    return instance
+            return None
+
+
 class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     # post = models.ForeignKey(Post, on_delete=models.CASCADE)

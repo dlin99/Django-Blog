@@ -12,7 +12,7 @@ from comments.api.serializers import CommentSerializer
 
 post_detail_url = HyperlinkedIdentityField(
     view_name='posts-api:detail',
-    lookup_field='pk'
+    lookup_field = 'slug'
     )
 
 
@@ -46,6 +46,7 @@ class PostDetailSerializer(ModelSerializer):
             'id',
             'author',
             'title',
+            'slug',
             'content',
             'html',
             'date_posted',
@@ -69,6 +70,7 @@ class PostCreateUpdateSerializer(ModelSerializer):
         fields = [
             # 'id',
             'title',
+            # 'slug',
             'content',
             'date_posted',
             # 'author',
