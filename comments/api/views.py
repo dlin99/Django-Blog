@@ -30,6 +30,7 @@ from comments.models import Comment
 
 from .serializers import (
     CommentSerializer,
+    CommentDetailSerializer,
 
 )
 
@@ -42,9 +43,6 @@ from .serializers import (
 #     def perform_create(self, serializer):
 #         serializer.save(author=self.request.user)
 
-class CommentDetailAPIView(RetrieveAPIView):
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
 
 
 
@@ -65,6 +63,15 @@ class CommentListAPIView(ListAPIView):
                 Q(author__last_name__icontains=query)
                 ).distinct()
         return queryset_list
+
+
+class CommentDetailAPIView(RetrieveAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentDetailSerializer
+    loockup_field = 'pk'
+
+
+
 #
 #
 # class PostDeleteAPIView(DestroyAPIView):
