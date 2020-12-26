@@ -47,6 +47,7 @@ urlpatterns = [
 
     path('api/posts/', include('blog.api.urls', namespace='posts-api')),
     path('api/comments/', include('comments.api.urls', namespace='comments-api')),
+    path('api/users/', include('users.api.urls', namespace='users-api')),
 ]
 
 if settings.DEBUG:
