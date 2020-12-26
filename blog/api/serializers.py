@@ -8,7 +8,7 @@ from blog.models import Post
 
 from comments.models import Comment 
 from comments.api.serializers import CommentSerializer
-
+from users.api.serializers import UserDetailSerializer
 
 post_detail_url = HyperlinkedIdentityField(
     view_name='posts-api:detail',
@@ -18,7 +18,7 @@ post_detail_url = HyperlinkedIdentityField(
 
 class PostListSerializer(ModelSerializer):
     url = post_detail_url
-    author = SerializerMethodField()
+    author = UserDetailSerializer(read_only=True)
     class Meta:
         model = Post
         fields = [
@@ -30,12 +30,11 @@ class PostListSerializer(ModelSerializer):
             'date_posted',
         ]
 
-    def get_author(self, obj):
-        return str(obj.author.username)
+
 
 class PostDetailSerializer(ModelSerializer):
     url = post_detail_url
-    author = SerializerMethodField()
+    author = UserDetailSerializer(read_only=True)
     html = SerializerMethodField()
     comments = SerializerMethodField()
 
@@ -53,8 +52,6 @@ class PostDetailSerializer(ModelSerializer):
             'comments',
         ]
 
-    def get_author(self, obj):
-        return str(obj.author.username)
 
     def get_html(self, obj):
         return obj.get_markdown()

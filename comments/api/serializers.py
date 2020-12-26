@@ -7,7 +7,7 @@ from rest_framework.serializers import (
 
 from comments.models import Comment
 from django.contrib.contenttypes.models import ContentType
-# from django.contrib.auth import get_user_model
+from users.api.serializers import UserDetailSerializer
 # from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -115,6 +115,7 @@ class CommentListSerializer(ModelSerializer):
 
 
 class CommentDetailSerializer(ModelSerializer):
+    author = UserDetailSerializer(read_only=True)
     replies = SerializerMethodField()
     reply_count = SerializerMethodField()
     content_object_url = SerializerMethodField()
@@ -122,6 +123,7 @@ class CommentDetailSerializer(ModelSerializer):
         model = Comment
         fields = [
             'id',
+            'author',
             # 'content_type',
             # 'object_id',
             'content',
@@ -155,10 +157,12 @@ class CommentDetailSerializer(ModelSerializer):
             return None
             
 class CommentChildSerializer(ModelSerializer):
+    author = UserDetailSerializer(read_only=True)
     class Meta:
         model = Comment
         fields = [
             'id',
+            'author',
             'content',
             'timestamp',
         ]

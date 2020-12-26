@@ -39,7 +39,7 @@ from .serializers import (
 class CommentCreateAPIView(CreateAPIView):
     queryset = Comment.objects.all()
     # serializer_class = PostCreateUpdateSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         model_type = self.request.GET.get('type')
@@ -58,7 +58,7 @@ class CommentListAPIView(ListAPIView):
     serializer_class = CommentListSerializer
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['content', 'author__first_name']
-    # pagination_class = PostLimitOffsetPagination
+    permission_classes = [AllowAny]
     pagination_class = PostPageNumberPagination
 
     def get_queryset(self, *args, **kwargs):
@@ -82,7 +82,7 @@ class CommentListAPIView(ListAPIView):
 class CommentDetailAPIView(DestroyModelMixin, UpdateModelMixin, RetrieveAPIView):
     queryset = Comment.objects.filter(id__gte=0) # the all() will only grab the parent comments
     serializer_class = CommentDetailSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    permission_classes = [IsOwnerOrReadOnly]
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
