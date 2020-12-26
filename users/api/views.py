@@ -47,8 +47,12 @@ class UserCreateAPIView(CreateAPIView):
 
 
 class UserLoginAPIView(APIView):
-    permission_class = [AllowAny]
+    
     serializer_class = UserLoginSerializer
+    permission_class = [AllowAny]
+
+    # def get(self, request, *args, **kwargs):
+    #     return Response(status=HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
         data = request.data

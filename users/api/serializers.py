@@ -14,6 +14,9 @@ from django.db.models import Q
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
+from rest_framework_jwt.settings import api_settings
+
+
 
 class UserDetailSerializer(ModelSerializer):
     class Meta:
@@ -132,7 +135,13 @@ class UserLoginSerializer(ModelSerializer):
             if not user_obj.check_password(password):
                 raise ValidationError("Incorrect credentials please try again.")
 
-        data["token"] = "SOME RANDOM TOKEN"
+        jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+        jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+
+        payload = jwt_payload_handler(user_obj)
+        token = jwt_encode_handler(payload)
+        data["token"] = token
 
 
         return data
+

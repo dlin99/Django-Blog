@@ -26,3 +26,35 @@ curl -X POST -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2V
 
 
 '''
+
+
+
+"""
+
+curl -X POST -d "username=CurlUser&password=q1q3q5q7" http://127.0.0.1:8000/api/auth/token/
+
+{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo5LCJ1c2VybmFtZSI6I
+mNmZTEyMyIsImV4cCI6MTYwODk4ODU4OSwiZW1haWwiOiJjZmUxMjNAZ21haWwuY29tIn0.SBp-RDu_2
+Ps_SqjCJ3SHejhfBLXmzEdr419SNZ-B6WE"}
+
+
+curl -X POST -d "username=CurlUser&password=q1q3q5q7&email=curl@example.com&email2=curl@example.com" http://127.0.0.1:8000/api/users/register/
+
+{"username":"CurlUser","email":"curl@example.com","email2":"curl@example.com"}
+
+
+curl -X POST -d "username=CurlUser&password=q1q3q5q7&email=curl@example.com" http://127.0.0.1:8000/api/users/login/
+
+
+
+curl http://127.0.0.1:8000/api/posts/
+
+curl -X DELETE -H "Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjA4OTkwNDQ4LCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIn0.gXgQx4LPhH-79Mi_wiZKPppb-ZaPHdiSudcr2NEGcgs" http://127.0.0.1:8000/api/posts/python-and-physics/delete/
+
+
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMSwidXNlcm5hbWUiO
+iJDdXJsVXNlciIsImV4cCI6MTYwODk5MDMzOSwiZW1haWwiOiJjdXJsQGV4YW1wbGUuY29tIn0.IObEx
+z1_t6H31yVadKrBAHIDnGh18dpef5B6YGlwR6A
+
+
+"""
