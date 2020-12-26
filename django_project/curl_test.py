@@ -32,6 +32,7 @@ curl -X POST -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2V
 """
 
 curl -X POST -d "username=CurlUser&password=q1q3q5q7" http://127.0.0.1:8000/api/auth/token/
+curl -X POST -d "username=CurlUser&password=q1q3q5q7" http://dyclin99.pythonanywhere.com/api/auth/token/
 
 {"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo5LCJ1c2VybmFtZSI6I
 mNmZTEyMyIsImV4cCI6MTYwODk4ODU4OSwiZW1haWwiOiJjZmUxMjNAZ21haWwuY29tIn0.SBp-RDu_2
