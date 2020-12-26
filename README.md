@@ -2,13 +2,13 @@
 - Blog built with Django
 - Blog API built with Django-Rest-Framework
 - Deploy on Pythonanywhere 
-- Live Deployment: 
+- Live Deployment: http://dyclin99.pythonanywhere.com/
 
 
 # Tech & Tools:
-1. Backend: Django 3.1.3
-2. Frontend: Bootstrap 4.3.1 
-3. Database: sqlite3 
+1. Django
+2. Django REST framework
+3. Django REST framework JWT
 
 # Functions:
 - User:
