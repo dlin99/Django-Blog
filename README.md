@@ -1,5 +1,5 @@
 
-# Django Blog With Rest API Built With Django Rest Framework 
+# Django Blog With APT Endpoints Built With Django Rest Framework 
 - Blog built with Django
 - Blog API built with Django-Rest-Framework 
 - Live Deployment: http://dyclin99.pythonanywhere.com/
@@ -26,26 +26,23 @@ In this application, we provide endpoints for users to access the blog posts and
 
 In our case, we have one single resource, `movies`, so we will use the following URLS - `/movies/` and `/movies/<id>` for collections and elements, respectively:
 
-
-Endpoint |HTTP Method | CRUD Method | Result
--- | -- |-- |--
-`movies` | GET | READ | Get all movies
-`movies/:id` | GET | READ | Get a single movie
-`movies`| POST | CREATE | Create a new movie
-`movies/:id` | PUT | UPDATE | Update a movie
-`movies/:id` | DELETE | DELETE | Delete a movie
-
 For blog post:
-
 Endpoint |HTTP Method | CRUD Method | Result
 -- | -- |-- |--
-`movies` | GET | READ | Get all movies
-`movies/:id` | GET | READ | Get a single movie
-`movies`| POST | CREATE | Create a new movie
-`movies/:id` | PUT | UPDATE | Update a movie
-`movies/:id` | DELETE | DELETE | Delete a movie
+`posts` | GET | READ | Get all posts
+`posts/:slug` | GET | READ | Get a single post
+`posts/create/`| POST | CREATE | Create a new post
+`movies/:slug/update` | PUT | UPDATE | Update a post
+`movies/:slug/delete` | DELETE | DELETE | Delete a post
 
-
+For blog comment:
+Endpoint |HTTP Method | CRUD Method | Result
+-- | -- |-- |--
+`comments` | GET | READ | Get all comments
+`comments/:id` | GET | READ | Get a single comment
+`comments/create/`| POST | CREATE | Create a new comment
+`comments/:id` | PUT | UPDATE | Update a comment
+`comments/:id` | DELETE | DELETE | Delete a comment
 
 ## Use
 We can test the API using [curl](https://curl.haxx.se/) or [httpie](https://github.com/jakubroztocil/httpie#installation). Httpie is a user friendly http client that's written in Python. Let's install that.
