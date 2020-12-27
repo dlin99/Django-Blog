@@ -20,49 +20,44 @@
 7. run http://localhost:8000/
 
 
-
 ## Structure
 In this application, we provide endpoints for users to access the blog posts and blog comments from using the HTTP methods - GET, POST, PUT, DELETE.
-
-In our case, we have one single resource, `movies`, so we will use the following URLS - `/movies/` and `/movies/<id>` for collections and elements, respectively:
 
 For blog post:
 Endpoint |HTTP Method | CRUD Method | Result
 -- | -- |-- |--
-`posts` | GET | READ | Get all posts
-`posts/:slug` | GET | READ | Get a single post
+`posts/` | GET | READ | Get all posts
+`posts/:slug/` | GET | READ | Get a single post
 `posts/create/`| POST | CREATE | Create a new post
-`movies/:slug/update` | PUT | UPDATE | Update a post
-`movies/:slug/delete` | DELETE | DELETE | Delete a post
+`movies/:slug/update/` | PUT | UPDATE | Update a post
+`movies/:slug/delete/` | DELETE | DELETE | Delete a post
 
 For blog comment:
 Endpoint |HTTP Method | CRUD Method | Result
 -- | -- |-- |--
-`comments` | GET | READ | Get all comments
-`comments/:id` | GET | READ | Get a single comment
+`comments/` | GET | READ | Get all comments
+`comments/:id/` | GET | READ | Get a single comment
 `comments/create/`| POST | CREATE | Create a new comment
-`comments/:id` | PUT | UPDATE | Update a comment
-`comments/:id` | DELETE | DELETE | Delete a comment
+`comments/:id/` | PUT | UPDATE | Update a comment
+`comments/:id/` | DELETE | DELETE | Delete a comment
 
 ## Use
-We can test the API using [curl](https://curl.haxx.se/) or [httpie](https://github.com/jakubroztocil/httpie#installation). Httpie is a user friendly http client that's written in Python. Let's install that.
+We use [httpie](https://github.com/jakubroztocil/httpie#installation) to test the API (You can also use curl). 
 
-You can install httpie using pip:
-```
-pip install httpie
-```
 
 First, we have to start up Django's development server.
 ```
   python manage.py runserver
 ```
-Only authenticated users can use the API services, for that reason if we try this:
+Only authenticated users can use some of the API services (POST, PUT, DELETE), for that reason if we try this:
 ```
-  http  http://127.0.0.1:8000/api/v1/movies/3
+  http POST http://127.0.0.1:8000/api/comments/create/
 ```
 we get:
 ```
- {  "detail":  "You must be authenticated"  }
+  {
+    "detail": "Authentication credentials were not provided."
+  }
 ```
 Instead, if we try to access with credentials:
 ```
