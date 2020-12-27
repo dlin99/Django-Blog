@@ -4,6 +4,16 @@ http POST http://127.0.0.1:8000/api/auth/token/ username=anotheruser123 password
 
 
 
+ http POST http://127.0.0.1:8000/api/comments/create/
 
 
 curl -X POST -d "username=anotheruser123&password=anotheruser123" http://127.0.0.1:8000/api/auth/token/
+
+
+
+
+ http POST http://127.0.0.1:8000/api/comments/create/ "Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMywidXNlcm5hbWUiOiJ1c2VyMTIzIiwiZXhwIjoxNjA5MDM0OTg5LCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20ifQ.54nhFuEBtc0Ad_qpcCuVRmBYnt1xyf8f20dsM0SOveE" content="use httpie to post a new comment"
+
+
+
+http POST http://127.0.0.1:8000/api/posts/create/ "Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMywidXNlcm5hbWUiOiJ1c2VyMTIzIiwiZXhwIjoxNjA5MDM2NDMwLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20ifQ.0EDG1rFVIcVbX9MBFI8pAIzgwb9nm6e-qTwzCucgb3M" title="Your Title" content="Your content"

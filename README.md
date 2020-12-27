@@ -5,7 +5,7 @@
 - Live Deployment: http://dyclin99.pythonanywhere.com/
 
 ## Tech & Tools:
-- Python 3.6
+- Python
 - Django
 - Django REST framework
 - Django REST framework JWT
@@ -20,7 +20,7 @@
 7. run http://localhost:8000/
 
 
-## Structure
+## API Structure
 In this application, we provide endpoints for users to access the blog posts and blog comments from using the HTTP methods - GET, POST, PUT, DELETE.
 
 For blog post:
@@ -97,46 +97,33 @@ after that, we get the token
     "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMywidXNlcm5hbWUiOiJ1c2VyMTIzIiwiZXhwIjoxNjA5MDM0NTkxLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20ifQ.CmQZHPkj6sbf3WwoRijehzhs0PQONZMY0nL85QU8Tzw"
 }
 ```
-**ALL request must be authenticated with a valid token, otherwise they will be invalid**
-
-We can create new users. (password1 and password2 must be equal)
-```
-http POST http://127.0.0.1:8000/rest-auth/registration/ username="USERNAME" password1="PASSWORD" password2="PASSWORD"
-```
-And we can logout, the token must be your actual token
-```
-http POST http://127.0.0.1:8000/rest-auth/logout/ "Authorization: Token <YOUR_TOKEN>" 
-```
 
 The API has some restrictions:
--   The movies are always associated with a creator (user who created it).
--   Only authenticated users may create and see movies.
--   Only the creator of a movie may update or delete it.
--   Unauthenticated requests shouldn't have access.
+-   The posts/comments are always associated with the user who created it.
+-   Only authenticated users may create posts/comments.
+-   Only the creator of a post/comment may update or delete it.
+-   Unauthenticated user can only read the posts and comments.
 
 ### Commands
-```
-http http://127.0.0.1:8000/api/v1/movies/ "Authorization: Token <YOUR_TOKEN>"
-http GET http://127.0.0.1:8000/api/v1/movies/3 "Authorization: Token <YOUR_TOKEN>"
-http POST http://127.0.0.1:8000/api/v1/movies/ "Authorization: Token <YOUR_TOKEN>" title="Ant Man and The Wasp" genre="Action" year=2018
-http PUT http://127.0.0.1:8000/api/v1/movies/3 "Authorization: Token <YOUR_TOKEN>" title="AntMan and The Wasp" genre="Action" year=2018
-http DELETE http://127.0.0.1:8000/api/v1/movies/3 "Authorization: Token <YOUR_TOKEN>"
-```
 
-### Pagination
-The API supports pagination, by default responses have a page_size=10 but if you want change that you can pass through params page=size=X
+For post:
 ```
-http http://127.0.0.1:8000/api/v1/movies/?page=1 "Authorization: Token <YOUR_TOKEN>"
-http http://127.0.0.1:8000/api/v1/movies/?page=3 "Authorization: Token <YOUR_TOKEN>"
-http http://127.0.0.1:8000/api/v1/movies/?page=3&page_size=15 "Authorization: Token <YOUR_TOKEN>"
+http POST http://127.0.0.1:8000/api/posts/create/ "Authorization: JWT <YOUR_TOKEN>" title="Your Title" content="Your content"
+http http://127.0.0.1:8000/api/posts/:slug/
+http PUT http://127.0.0.1:8000/api/posts/:slug/update/ "Authorization: JWT <YOUR_TOKEN>" title="Your Title - Updated" content="Your content - Updated"
+http DELETE http://127.0.0.1:8000/api/posts/:slug/delete/ "Authorization: JWT <YOUR_TOKEN>"
 ```
 
-Finally, I provide a DB to make these tests.
+For comments:
+```
+http POST http://127.0.0.1:8000/api/posts/create/ "Authorization: JWT <YOUR_TOKEN>" title="Your Title" content="Your content"
+http http://127.0.0.1:8000/api/posts/:slug/
+http PUT http://127.0.0.1:8000/api/posts/:slug/update/ "Authorization: JWT <YOUR_TOKEN>" title="Your Title - Updated" content="Your content - Updated"
+http DELETE http://127.0.0.1:8000/api/posts/:slug/delete/ "Authorization: JWT <YOUR_TOKEN>"
+```
 
 
-
-
-# Functions:
+### Functions:
 - User:
   - Purchase products as a logged in or a guest user.
 - Logged In User:
