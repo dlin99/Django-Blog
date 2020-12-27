@@ -59,25 +59,42 @@ we get:
     "detail": "Authentication credentials were not provided."
   }
 ```
-Instead, if we try to access with credentials:
+However, we can GET posts and comments without authentication:
 ```
-  http http://127.0.0.1:8000/api/v1/movies/3 "Authorization: Token 7530ec9186a31a5b3dd8d03d84e34f80941391e3"
+  http http://127.0.0.1:8000/api/comments/63/
 ```
-we get the movie with id = 3
+we get the comment with id = 63
 ```
-{  "title":  "Avengers",  "genre":  "Superheroes",  "year":  2012,  "creator":  "admin"  }
+{
+    "author": {
+        "email": "admin@example.com",
+        "first_name": "",
+        "last_name": "",
+        "username": "admin"
+    },
+    "content": "children comment 2 - update",
+    "content_object_url": "/api/posts/you-wont-believe-these-clickbait-titles/",
+    "id": 63,
+    "replies": null,
+    "reply_count": 0,
+    "timestamp": "2020-12-25T09:59:05.143859Z"
+}
 ```
 
-## Login and Tokens
+## Registration and Obtain Tokens
 
-To get a token first we have to login
+We first have to register a new account
 ```
-  http http://127.0.0.1:8000/rest-auth/login/ username="admin" password="root1234"
+  http POST http://127.0.0.1:8000/api/users/register/ username=user123 password=password123 email=user@example.com email2=user@example.com
+```
+To get a token by
+```
+  http POST http://127.0.0.1:8000/api/auth/token/ username=user123 password=password123
 ```
 after that, we get the token
 ```
 {
-    "key": "2d500db1e51153318e300860064e52c061e72016"
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMywidXNlcm5hbWUiOiJ1c2VyMTIzIiwiZXhwIjoxNjA5MDM0NTkxLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20ifQ.CmQZHPkj6sbf3WwoRijehzhs0PQONZMY0nL85QU8Tzw"
 }
 ```
 **ALL request must be authenticated with a valid token, otherwise they will be invalid**
