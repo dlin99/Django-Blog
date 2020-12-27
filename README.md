@@ -7,8 +7,8 @@
 ## Tech & Tools:
 - Python
 - Django
-- Django REST framework
-- Django REST framework JWT
+- Django REST Framework
+- Django REST Framework JWT
 
 ## To Use
 1. git clone this repository to your computer
@@ -18,6 +18,9 @@
 5. `python manage.py migrate`
 6. `python manage.py createsuperuser`
 7. run http://localhost:8000/
+
+## Website Overview 
+Simple blog website where you can post blog posts and reply the posts with comments. We also provide API endpoints for User, Post and Comment.
 
 
 ## API Structure
@@ -29,8 +32,8 @@ Endpoint |HTTP Method | CRUD Method | Result
 `posts/` | GET | READ | Get all posts
 `posts/:slug/` | GET | READ | Get a single post
 `posts/create/`| POST | CREATE | Create a new post
-`movies/:slug/update/` | PUT | UPDATE | Update a post
-`movies/:slug/delete/` | DELETE | DELETE | Delete a post
+`posts/:slug/update/` | PUT | UPDATE | Update a post
+`posts/:slug/delete/` | DELETE | DELETE | Delete a post
 
 For blog comment:
 Endpoint |HTTP Method | CRUD Method | Result
@@ -124,35 +127,6 @@ http http://127.0.0.1:8000/api/comments/:id/
 http PUT http://127.0.0.1:8000/api/comments/:id/ "Authorization: JWT <YOUR_TOKEN>" content="Your content - Updated"
 http DELETE http://127.0.0.1:8000/api/comments/:id/ "Authorization: JWT <YOUR_TOKEN>"
 ```
-
-
-### Functions:
-- User:
-  - Purchase products as a logged in or a guest user.
-- Logged In User:
-  - Login and Signup Pages
-  ![image](readme_images/login_signup_pages.png)
-  - Forget Password, Reset via Email
-  ![image](readme_images/reset_password1.png)
-  ![image](readme_images/reset_password2.png)
-  ![image](readme_images/reset_password3.png)
-  - Change Password
-  ![image](readme_images/change_password.png)
-  - Profile/Change Profile Pages
-  ![image](readme_images/profile.png)
-  - My Orders Page/Order Details
-  ![image](readme_images/my_orders.png)
-  ![image](readme_images/order_detail.png) 
-- Homepage:
-  - Show all the products with pagination (6 items per page)
-  ![image](readme_images/homepage.png)
-- Product Page:
-  - Show the details of individual product
-  ![image](readme_images/product.png)
-- Cart Page:
-  - Show all the items in your shopping cart
-  ![image](readme_images/cart.png)
-
 
 
 # Reference:

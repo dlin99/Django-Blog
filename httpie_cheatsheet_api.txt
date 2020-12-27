@@ -25,4 +25,11 @@ http PUT http://127.0.0.1:8000/api/posts/your-title/update/ "Authorization: JWT 
 http DELETE http://127.0.0.1:8000/api/posts/your-title/delete/ "Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMywidXNlcm5hbWUiOiJ1c2VyMTIzIiwiZXhwIjoxNjA5MDM2ODI1LCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20ifQ.0Q0f8DPl7L7c6UrWQjzFDUu1rgs6NVbaBpfMmwCQZcI"
 
 
-http POST http://127.0.0.1:8000/api/comments/create/?slug=top-5-programming-lanaguages&type=post "Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMywidXNlcm5hbWUiOiJ1c2VyMTIzIiwiZXhwIjoxNjA5MDM3MTg5LCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20ifQ.kPmQ9noVcgitQ-B9XWAdyd9A1TofE9rq-U9ldtCkAAY" content="Your content"
+http POST 'http://127.0.0.1:8000/api/comments/create/?slug=your-title&type=post' "Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMywidXNlcm5hbWUiOiJ1c2VyMTIzIiwiZXhwIjoxNjA5MDM3NjkzLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20ifQ.5cCZ-47FNG3croLgcNZiQ3Mri_WkNl5eqJAZSZc8bGM" content="Your reply content"
+
+http POST 'http://127.0.0.1:8000/api/comments/create/?slug=your-title&type=post&parent_id=66' "Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMywidXNlcm5hbWUiOiJ1c2VyMTIzIiwiZXhwIjoxNjA5MDM3NjkzLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20ifQ.5cCZ-47FNG3croLgcNZiQ3Mri_WkNl5eqJAZSZc8bGM" content="Your reply content, child"
+
+
+http PUT http://127.0.0.1:8000/api/comments/66/ "Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMywidXNlcm5hbWUiOiJ1c2VyMTIzIiwiZXhwIjoxNjA5MDM4MTkxLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20ifQ.iman01oyMDwGCsmadkwiRjX0gUah4GxAj58E1mO28FU" content="Your content - Updated"
+
+http DELETE http://127.0.0.1:8000/api/comments/66/ "Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMywidXNlcm5hbWUiOiJ1c2VyMTIzIiwiZXhwIjoxNjA5MDM4MTkxLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20ifQ.iman01oyMDwGCsmadkwiRjX0gUah4GxAj58E1mO28FU"
