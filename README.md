@@ -1,5 +1,5 @@
 
-# Django Blog With APT Endpoints Built With Django Rest Framework 
+# Django Blog With API Endpoints Built With Django Rest Framework 
 - Blog built with Django
 - Blog API built with Django-Rest-Framework 
 - Live Deployment: http://dyclin99.pythonanywhere.com/
@@ -20,7 +20,21 @@
 7. run http://localhost:8000/
 
 ## Website Overview 
-Simple blog website where you can post blog posts and reply the posts with comments. We also provide API endpoints for User, Post and Comment.
+Simple blog website where you can post blog posts and reply the posts with comments. We also provide API endpoints for user to access the posts and comments.
+
+- Home Page:
+  - List of blog posts (with pagination)
+  - Login, register and new post at navbar
+  ![image](readme_images/homepage.png)
+- Post:
+  - Update and delete post (if you're the owner of that post) 
+  - Reply to post (comment section)
+  ![image](readme_images/postpage.png)
+  - Reply to comment:
+  ![image](readme_images/comments.png)
+- Comment Thread:
+  - Delete comment 
+  ![image](readme_images/comment_thread.png)
 
 
 ## API Structure
