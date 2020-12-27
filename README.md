@@ -22,9 +22,10 @@
 
 
 ## Structure
-In a RESTful API, endpoints (URLs) define the structure of the API and how end users access data from our application using the HTTP methods - GET, POST, PUT, DELETE. Endpoints should be logically organized around _collections_ and _elements_, both of which are resources.
+In this application, we provide endpoints for users to access the blog posts and blog comments from using the HTTP methods - GET, POST, PUT, DELETE.
 
 In our case, we have one single resource, `movies`, so we will use the following URLS - `/movies/` and `/movies/<id>` for collections and elements, respectively:
+
 
 Endpoint |HTTP Method | CRUD Method | Result
 -- | -- |-- |--
@@ -33,6 +34,18 @@ Endpoint |HTTP Method | CRUD Method | Result
 `movies`| POST | CREATE | Create a new movie
 `movies/:id` | PUT | UPDATE | Update a movie
 `movies/:id` | DELETE | DELETE | Delete a movie
+
+For blog post:
+
+Endpoint |HTTP Method | CRUD Method | Result
+-- | -- |-- |--
+`movies` | GET | READ | Get all movies
+`movies/:id` | GET | READ | Get a single movie
+`movies`| POST | CREATE | Create a new movie
+`movies/:id` | PUT | UPDATE | Update a movie
+`movies/:id` | DELETE | DELETE | Delete a movie
+
+
 
 ## Use
 We can test the API using [curl](https://curl.haxx.se/) or [httpie](https://github.com/jakubroztocil/httpie#installation). Httpie is a user friendly http client that's written in Python. Let's install that.
