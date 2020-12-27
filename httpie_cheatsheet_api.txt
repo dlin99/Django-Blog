@@ -16,4 +16,13 @@ curl -X POST -d "username=anotheruser123&password=anotheruser123" http://127.0.0
 
 
 
-http POST http://127.0.0.1:8000/api/posts/create/ "Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMywidXNlcm5hbWUiOiJ1c2VyMTIzIiwiZXhwIjoxNjA5MDM2NDMwLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20ifQ.0EDG1rFVIcVbX9MBFI8pAIzgwb9nm6e-qTwzCucgb3M" title="Your Title" content="Your content"
+http POST http://127.0.0.1:8000/api/posts/create/ "Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMywidXNlcm5hbWUiOiJ1c2VyMTIzIiwiZXhwIjoxNjA5MDM2ODI1LCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20ifQ.0Q0f8DPl7L7c6UrWQjzFDUu1rgs6NVbaBpfMmwCQZcI" title="Your Title" content="Your content"
+
+
+http PUT http://127.0.0.1:8000/api/posts/your-title/update/ "Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMywidXNlcm5hbWUiOiJ1c2VyMTIzIiwiZXhwIjoxNjA5MDM2NDMwLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20ifQ.0EDG1rFVIcVbX9MBFI8pAIzgwb9nm6e-qTwzCucgb3M" title="Your Title - Updated" content="Your content - Updated"
+
+
+http DELETE http://127.0.0.1:8000/api/posts/your-title/delete/ "Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMywidXNlcm5hbWUiOiJ1c2VyMTIzIiwiZXhwIjoxNjA5MDM2ODI1LCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20ifQ.0Q0f8DPl7L7c6UrWQjzFDUu1rgs6NVbaBpfMmwCQZcI"
+
+
+http POST http://127.0.0.1:8000/api/comments/create/?slug=top-5-programming-lanaguages&type=post "Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMywidXNlcm5hbWUiOiJ1c2VyMTIzIiwiZXhwIjoxNjA5MDM3MTg5LCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20ifQ.kPmQ9noVcgitQ-B9XWAdyd9A1TofE9rq-U9ldtCkAAY" content="Your content"

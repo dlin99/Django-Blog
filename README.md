@@ -108,6 +108,7 @@ The API has some restrictions:
 
 For post:
 ```
+http http://127.0.0.1:8000/api/posts/
 http POST http://127.0.0.1:8000/api/posts/create/ "Authorization: JWT <YOUR_TOKEN>" title="Your Title" content="Your content"
 http http://127.0.0.1:8000/api/posts/:slug/
 http PUT http://127.0.0.1:8000/api/posts/:slug/update/ "Authorization: JWT <YOUR_TOKEN>" title="Your Title - Updated" content="Your content - Updated"
@@ -116,10 +117,12 @@ http DELETE http://127.0.0.1:8000/api/posts/:slug/delete/ "Authorization: JWT <Y
 
 For comments:
 ```
-http POST http://127.0.0.1:8000/api/posts/create/ "Authorization: JWT <YOUR_TOKEN>" title="Your Title" content="Your content"
-http http://127.0.0.1:8000/api/posts/:slug/
-http PUT http://127.0.0.1:8000/api/posts/:slug/update/ "Authorization: JWT <YOUR_TOKEN>" title="Your Title - Updated" content="Your content - Updated"
-http DELETE http://127.0.0.1:8000/api/posts/:slug/delete/ "Authorization: JWT <YOUR_TOKEN>"
+http http://127.0.0.1:8000/api/comments/
+http POST 'http://127.0.0.1:8000/api/comments/create/?slug=:slug&type=post' "Authorization: JWT <YOUR_TOKEN>" content="Your reply comment"
+http POST 'http://127.0.0.1:8000/api/comments/create/?slug=:slug&type=post&parent_id=:parent_id' "Authorization: JWT <YOUR_TOKEN>" content="Your reply comment, child"
+http http://127.0.0.1:8000/api/comments/:id/
+http PUT http://127.0.0.1:8000/api/comments/:id/ "Authorization: JWT <YOUR_TOKEN>" content="Your content - Updated"
+http DELETE http://127.0.0.1:8000/api/comments/:id/ "Authorization: JWT <YOUR_TOKEN>"
 ```
 
 
