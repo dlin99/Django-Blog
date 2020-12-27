@@ -1,0 +1,9 @@
+http  http://127.0.0.1:8000/api/comments/
+
+http POST http://127.0.0.1:8000/api/auth/token/ username=anotheruser123 password=anotheruser123
+
+
+
+
+
+curl -X POST -d "username=anotheruser123&password=anotheruser123" http://127.0.0.1:8000/api/auth/token/
